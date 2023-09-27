@@ -18,8 +18,6 @@ namespace MovieList
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddDbContext<MovieContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MovieContext")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
