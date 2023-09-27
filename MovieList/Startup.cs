@@ -28,6 +28,7 @@ namespace MovieList
             }
             else
             {
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
