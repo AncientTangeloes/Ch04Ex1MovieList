@@ -8,13 +8,6 @@ namespace MovieList.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "GenreId",
-                table: "Movies",
-                type: "nvarchar(450)",
-                nullable: false,
-                defaultValue: "");
-
             migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
@@ -25,6 +18,28 @@ namespace MovieList.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genres", x => x.GenreId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    MovieId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.MovieId);
+                    table.ForeignKey(
+                        name: "FK_Movies_Genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Genres",
+                        principalColumn: "GenreId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -52,57 +67,34 @@ namespace MovieList.Migrations
                     { "W", "Western" }
                 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "Movies",
-                keyColumn: "MovieId",
-                keyValue: 1,
-                column: "GenreId",
-                value: "D");
+                columns: new[] { "MovieId", "GenreId", "Name", "Rating", "Year" },
+                values: new object[] { 1, "D", "Casablanca", 5, 1942 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "Movies",
-                keyColumn: "MovieId",
-                keyValue: 2,
-                column: "GenreId",
-                value: "A");
+                columns: new[] { "MovieId", "GenreId", "Name", "Rating", "Year" },
+                values: new object[] { 2, "A", "Wonder Woman", 3, 2017 });
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "Movies",
-                keyColumn: "MovieId",
-                keyValue: 3,
-                column: "GenreId",
-                value: "R");
+                columns: new[] { "MovieId", "GenreId", "Name", "Rating", "Year" },
+                values: new object[] { 3, "R", "Moonstruck", 4, 1988 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_GenreId",
                 table: "Movies",
                 column: "GenreId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Movies_Genres_GenreId",
-                table: "Movies",
-                column: "GenreId",
-                principalTable: "Genres",
-                principalColumn: "GenreId",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Movies_Genres_GenreId",
-                table: "Movies");
+            migrationBuilder.DropTable(
+                name: "Movies");
 
             migrationBuilder.DropTable(
                 name: "Genres");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Movies_GenreId",
-                table: "Movies");
-
-            migrationBuilder.DropColumn(
-                name: "GenreId",
-                table: "Movies");
         }
     }
 }

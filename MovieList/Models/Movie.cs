@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieList.Models
 {
@@ -20,6 +21,6 @@ namespace MovieList.Models
 
         [Required(ErrorMessage = "Please enter a genre.")]
         public string GenreId { get; set; }
-        public Genre Genre { get; set; }
+        public Genre? Genre { get; set; }
     }
 }
